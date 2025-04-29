@@ -36,9 +36,54 @@ O desenvolvimento da aplicação utilizará tecnologias modernas como HTML, CSS,
 
 ### 2.2. User Stories (Semana 01)
 
-*Posicione aqui a lista de User Stories levantadas para o projeto. Siga o template de User Stories e utilize a referência USXX para numeração (US01, US02, US03, ...). Indique todas as User Stories mapeadas, mesmo aquelas que não forem implementadas ao longo do projeto. Não se esqueça de explicar o INVEST de 1 User Storie prioritária.*
+<div align="center">
+    <strong style="font-size: 18px;"><sub></sub></strong><br>
+<img src="assets/US01.png" width="%"
+    alt="Persona"><br>
+    <sup>Fonte: Desenvolvido pelo autor</sup>
+  </div>
 
----
+
+| Critério | Análise |
+|----------|---------|
+| **I - Independente** | Sim. Pode ser desenvolvida sem depender de outras funcionalidades. |
+| **N - Negociável**   | Sim. A forma como a tarefa é criada, validada ou exibida pode ser discutida com o time. |
+| **V - Valiosa**      | Sim. Entrega valor direto ao usuário ao permitir melhor organização. |
+| **E - Estimável**    | Sim. É possível estimar o esforço de desenvolvimento com clareza. |
+| **S - Small**        | Sim. Tem escopo bem definido (criar tarefa + notificação). |
+| **T - Testável**     | Sim. Pode ser testada funcionalmente e via interface. |
+
+<div align="center">
+    <strong style="font-size: 18px;"><sub></sub></strong><br>
+<img src="assets/US02.png" width="%"
+    alt="Persona"><br>
+    <sup>Fonte: Desenvolvido pelo autor</sup>
+  </div>
+
+| Critério | Análise |
+|----------|---------|
+| **I - Independente** | Sim. A categorização pode ser implementada sem outras funcionalidades. |
+| **N - Negociável**   | Sim. Pode-se negociar quais categorias usar ou como representar visualmente. |
+| **V - Valiosa**      | Sim. Ajuda a organizar melhor diferentes áreas da vida do usuário. |
+| **E - Estimável**    | Sim. As tarefas de desenvolvimento são claras e mensuráveis. |
+| **S - Small**        | Sim. Pequena e objetiva. |
+| **T - Testável**     | Sim. Pode ser testada por filtragem e visualização de categorias. |
+
+<div align="center">
+    <strong style="font-size: 18px;"><sub></sub></strong><br>
+<img src="assets/US03.png" width="%"
+    alt="Persona"><br>
+    <sup>Fonte: Desenvolvido pelo autor</sup>
+  </div>
+
+| Critério | Análise |
+|----------|---------|
+| **I - Independente** | Sim. Não depende da criação de novas tarefas ou visualizações. |
+| **N - Negociável**   | Sim. A forma como se marca ou representa a conclusão pode ser adaptada. |
+| **V - Valiosa**      | Sim. Dá senso de progresso e alívio ao usuário. |
+| **E - Estimável**    | Sim. Fácil de estimar tempo e esforço de implementação. |
+| **S - Small**        | Sim. Tem escopo bastante reduzido. |
+| **T - Testável**     | Sim. Pode ser testada pela alteração de status da tarefa. |
 
 ## <a name="c3"></a>3. Projeto da Aplicação Web
 

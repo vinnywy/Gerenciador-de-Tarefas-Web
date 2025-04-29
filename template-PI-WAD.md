@@ -26,7 +26,13 @@ O desenvolvimento da aplicação utilizará tecnologias modernas como HTML, CSS,
 
 ### 2.1. Personas (Semana 01)
 
-*Posicione aqui sua(s) Persona(s) em forma de texto markdown com imagens, ou como imagem de template preenchido. Atualize esta seção ao longo do módulo se necessário.*
+<div align="center">
+    <strong style="font-size: 18px;"><sub></sub></strong><br>
+<img src="assets/Persona.png" width="%"
+    alt="Persona"><br>
+    <sup>Fonte: Desenvolvido pelo autor</sup>
+  </div>
+
 
 ### 2.2. User Stories (Semana 01)
 

@@ -1,83 +1,91 @@
-# Boilerplate MVC em Node.js com PostgreSQL
+# Inteli - Instituto de Tecnologia e Liderança 
 
-Este projeto é um boilerplate básico para uma aplicação Node.js seguindo o padrão MVC (Model-View-Controller), utilizando PostgreSQL como banco de dados.
+# Projeto individual 
 
-## Requisitos
+## Organizador de Tarefas
 
-- Node.js (versão X.X.X)
-- PostgreSQL (versão X.X.X)
+## 👩‍🏫 Professores:
 
-## Instalação
+### Orientador(a) 
+- <a href="https://www.linkedin.com/in/juliastateri/">Júlia Stateri</a>
 
-1. **Clonar o repositório:**
+### Instrutores
+- <a href="https://www.linkedin.com/in/cristiano-benites-ph-d-687647a8/">Cristiano Benites</a>
+- <a href="https://www.linkedin.com/in/bruna-mayer/">Bruna Mayer</a> 
 
-```bash
-   git clone https://github.com/seu-usuario/seu-projeto.git
-   cd seu-projeto
-```
 
-2. **Instalar as dependências:**
+## 📜 Descrição
+
+Esta aplicação web foi desenvolvida para ajudar no gerenciamento de tarefas, focando na organização pessoal e no aumento da produtividade. Com ela, usuários podem criar, editar, visualizar e organizar tarefas de forma simples e eficiente.
+
+#### ⚙️ Funcionalidades principais
+- Criação de tarefas com prazos e prioridades
+
+- Estados: pendente, em andamento e concluída
+
+- Organização com métodos como Kanban e SCRUM
+
+- Edição, exclusão e categorização de atividades
+
+- Notificações automáticas para lembrar de tarefas próximas ao vencimento
+
+- O projeto usa HTML, CSS, JavaScript e frameworks modernos, com foco em usabilidade e design centrado no usuário.
+
+
+
+
+## 📁 Estrutura de pastas
+
+Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
+
+- <b>assets</b>: aqui estão pastas que contêm elementos não-estruturados deste repositório, como imagens.
+
+- <b>controllers</b>: Contém os controllers da aplicação. Eles fazem a ponte entre as requisições do usuário e a lógica de negócio, definindo o que acontece quando uma rota é acessada.
+
+- <b>document</b>: aqui está o documento do projeto, o Web Aplication Document (WAD).
+
+- <b>routes</b>: Agrupa e organiza as rotas da aplicação. Centraliza os caminhos e define qual controller será chamado para cada rota.
+
+- <b>routes/index.js</b>: Define as rotas principais e conecta elas aos controllers certos.
+
+- <b>scripts</b>: Scripts JavaScript públicos (geralmente usados no navegador).
+
+- <b>README.md</b>: Arquivo que serve como guia e explicação geral sobre o projeto e o jogo (o mesmo que você está lendo agora).
+
+- <b>tests</b>: Testes unitários e de integração.
+
+# 📄 Arquivos Importantes
+- <b>.gitignore</b>: Define quais arquivos devem ser ignorados pelo Git.
+
+- <b>.env.example</b>: Exemplo de arquivo .env com variáveis de ambiente necessárias para rodar o projeto.
+
+- <b>jest.config.js</b>: Configurações do Jest para testes automatizados.
+
+- <b>package.json / package-lock.json</b>: Arquivos que listam dependências e scripts do Node.js.
+
+- <b>readme.md</b>: Documentação principal do projeto.
+
+- <b>server.js</b>: Ponto de entrada da aplicação — inicializa o servidor e carrega as rotas.
+
+- <b>rest.http</b>: (Opcional) Arquivo usado para testar endpoints da API diretamente em editores como o VSCode.
+
+## 🔧 Como executar o código
+
+Para instalação básica do projeto, certifique-se de ter instalado em suas versões mais recentes:
+
+- Navegador web (como Google Chrome, Mozilla Firefox, Safari, etc.) que suporte HTML5 e JavaScript;
+- GitHub Desktop, que pode ser instalado aqui;
+- Visual Studio Code, você pode baixá-lo aqui;
+- Node.js, disponível aqui.
+
+
+**Em seguida, para executar a aplicação, cole no seu navegador o seguinte link:**
+
+- http://localhost:3000
     
-```bash
-npm install
-```
-    
-3. **Configurar o arquivo `.env`:**
-    
-Renomeie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente necessárias, como as configurações do banco de dados PostgreSQL.
-    
 
-Configuração do Banco de Dados
-------------------------------
+## 🗃 Histórico de lançamentos
 
-1. **Criar banco de dados:**
-    
-    Crie um banco de dados PostgreSQL com o nome especificado no seu arquivo `.env`.
-    
-2. **Executar o script SQL de inicialização:**
-    
-```bash
-npm run init-db
-```
-    
-Isso criará a tabela `users` no seu banco de dados PostgreSQL com UUID como chave primária e inserirá alguns registros de exemplo.
-    
-
-Funcionalidades
----------------
-
-* **Padrão MVC:** Estrutura organizada em Model, View e Controller.
-* **PostgreSQL:** Banco de dados relacional utilizado para persistência dos dados.
-* **UUID:** Utilização de UUID como chave primária na tabela `users`.
-* **Scripts com `nodemon`:** Utilização do `nodemon` para reiniciar automaticamente o servidor após alterações no código.
-* **Testes:** Inclui estrutura básica para testes automatizados.
-
-Scripts Disponíveis
--------------------
-
-* `npm start`: Inicia o servidor Node.js.
-* `npm run dev`: Inicia o servidor com `nodemon`, reiniciando automaticamente após alterações no código.
-* `npm run test`: Executa os testes automatizados.
-* `npm run test:coverage`: Executa os testes e gera um relatório de cobertura de código.
-
-Estrutura de Diretórios
------------------------
-
-* **`config/`**: Configurações do banco de dados e outras configurações do projeto.
-* **`controllers/`**: Controladores da aplicação (lógica de negócio).
-* **`models/`**: Modelos da aplicação (definições de dados e interações com o banco de dados).
-* **`routes/`**: Rotas da aplicação.
-* **`tests/`**: Testes automatizados.
-* **`views/`**: Views da aplicação (se aplicável).
-
-Contribuição
-------------
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir um issue ou enviar um pull request.
-
-Licença
--------
-
-Este projeto está licenciado sob a Licença MIT.
-
-Este README.md fornece uma visão geral clara do boilerplate, incluindo instruções de instalação, configuração do banco de dados, funcionalidades principais, scripts disponíveis, estrutura de diretórios, como contribuir e informações de licença. Certifique-se de personalizar as seções com detalhes específicos do seu projeto conforme necessário.
+* 1.1.1 - 09/05/2025
+    - Integração do Banco de Dados.
+    - Executável com node.js no host local.

@@ -27,21 +27,31 @@ O desenvolvimento da aplicação utilizará tecnologias modernas como HTML, CSS,
 ### 2.1. Personas (Semana 01)
 
 <div align="center">
-    <strong style="font-size: 18px;"><sub></sub></strong><br>
-<img src="assets/Persona.png" width="%"
-    alt="Persona"><br>
-    <sup>Fonte: Desenvolvido pelo autor</sup>
-  </div>
+<sub align="center">Figura 1 – Persona</sub>
+</div>
+
+<div align="center">
+<img src="../assets/Persona.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
 
 
 ### 2.2. User Stories (Semana 01)
 
 <div align="center">
-    <strong style="font-size: 18px;"><sub></sub></strong><br>
-<img src="assets/US01.png" width="%"
-    alt="Persona"><br>
-    <sup>Fonte: Desenvolvido pelo autor</sup>
-  </div>
+<sub align="center">Figure 2 – User Story 01</sub>
+</div>
+
+<div align="center">
+<img src="../assets/US01.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
 
 
 | Critério | Análise |
@@ -54,11 +64,16 @@ O desenvolvimento da aplicação utilizará tecnologias modernas como HTML, CSS,
 | **T - Testável**     | Sim. Pode ser testada funcionalmente e via interface. |
 
 <div align="center">
-    <strong style="font-size: 18px;"><sub></sub></strong><br>
-<img src="assets/US02.png" width="%"
-    alt="Persona"><br>
-    <sup>Fonte: Desenvolvido pelo autor</sup>
-  </div>
+<sub align="center">Figure 3 – User Story 02</sub>
+</div>
+
+<div align="center">
+<img src="../assets/US02.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produced by the team, 2025.</sup>
+</div>
 
 | Critério | Análise |
 |----------|---------|
@@ -70,11 +85,16 @@ O desenvolvimento da aplicação utilizará tecnologias modernas como HTML, CSS,
 | **T - Testável**     | Sim. Pode ser testada por filtragem e visualização de categorias. |
 
 <div align="center">
-    <strong style="font-size: 18px;"><sub></sub></strong><br>
-<img src="assets/US03.png" width="%"
-    alt="Persona"><br>
-    <sup>Fonte: Desenvolvido pelo autor</sup>
-  </div>
+<sub align="center">Figure 4 – User Story 03</sub>
+</div>
+
+<div align="center">
+<img src="../assets/US03.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produced by the team, 2025.</sup>
+</div>
 
 | Critério | Análise |
 |----------|---------|
@@ -92,11 +112,16 @@ O desenvolvimento da aplicação utilizará tecnologias modernas como HTML, CSS,
 #### Esquema de Modelo Relacional
 
 <div align="center">
-    <strong style="font-size: 18px;"><sub></sub></strong><br>
-<img src="assets/modelo_logico_bd.png" width="%"
-    alt="Modelo Relacional"><br>
-    <sup>Fonte: Desenvolvido pelo autor</sup>
-  </div>
+<sub align="center">Figura 5 – Modelo Lógico - Banco de Dados</sub>
+</div>
+
+<div align="center">
+<img src="../assets/modelo_logico_bd.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
 
 #### Modelo físico do Banco de Dados:
 
@@ -222,7 +247,87 @@ INSERT INTO comments (content, tarefa_id, autor_id) VALUES
 
 ### 3.3. Wireframes (Semana 03)
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+<div align="center">
+<sub align="center">Figura 6 – Tela de Login</sub>
+</div>
+
+<div align="center">
+<img src="../assets/Login.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+Tela de "Login"  para o usuário acessar diretamente sua conta específica.
+
+---
+
+<div align="center">
+<sub align="center">Figura 7 – Tela de Quadros</sub>
+</div>
+
+<div align="center">
+<img src="../assets/Boards 1.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+Tela de quadros para que o usuário possa ter diferentes áreas de tarefas para diferentes tipos de atividades. 
+
+Alinhada com a User Story 02 - Em que o usuário possa categorizar suas tarefas em diferentes tipos.
+
+---
+
+<div align="center">
+<sub align="center">Figura 8 - Pop-up de Configuração de board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/Boards 2.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+Pop-up de preenchimento de dados inerentes àquele quadro selecionado, podendo visualizar horário de criação e preencher título e descrição.
+
+---
+
+<div align="center">
+<sub align="center">Figura 9 – Tela de colunas de tarefas</sub>
+</div>
+
+<div align="center">
+<img src="../assets/Columns 1.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+Tela de colunas onde ficarão contídas as tarefas criadas, cada coluna possuin título e espaço para criação de tarefas , facilitando o uso do método kanban pra organização de atividades.
+
+---
+
+<div align="center">
+<sub align="center">Figura 10 – Tela configuração de tarefas</sub>
+</div>
+
+<div align="center">
+<img src="../assets/Columns 2.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+Pop-up de prenchimento de uma tarefa, aparece quando se é criada uma nova atividade ou quando se deseja atualizar suas informações.
+
+Alinhada com a User Story 01 - Dando a possibilidade de edição de título e descrição e a visualização de datas/horários de entrega e datas/horários de criação.
 
 ### 3.4. Guia de estilos (Semana 05)
 

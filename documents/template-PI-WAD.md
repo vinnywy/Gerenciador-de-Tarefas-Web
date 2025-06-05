@@ -329,14 +329,99 @@ Pop-up de prenchimento de uma tarefa, aparece quando se é criada uma nova ativi
 
 Alinhada com a User Story 01 - Dando a possibilidade de edição de título e descrição e a visualização de datas/horários de entrega e datas/horários de criação.
 
+---
+
+Link para o [Figma](https://www.figma.com/design/TB7TNIX9Dv7nx6j3e0QQtj/Untitled?node-id=0-1&t=Hv6TlWQjf2v8bU7o-1).
+
 ### 3.4. Guia de estilos (Semana 05)
 
-*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
+<div align="center">
+<sub align="center">Figura 11 – Tela de Login</sub>
+</div>
 
+<div align="center">
+<img src="../assets/mockup/style-guide.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+Link para o [Figma](https://www.figma.com/design/TB7TNIX9Dv7nx6j3e0QQtj/Untitled?node-id=0-1&t=Hv6TlWQjf2v8bU7o-1)
 
 ### 3.5. Protótipo de alta fidelidade (Semana 05)
 
-*Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
+<div align="center">
+<sub align="center">Figura 11 – Tela de Login</sub>
+</div>
+
+<div align="center">
+<img src="../assets/mockup/login-p.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+---
+
+<div align="center">
+<sub align="center">Figura 12 – Tela de quadros</sub>
+</div>
+
+<div align="center">
+<img src="../assets/mockup/boards-p1.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+---
+
+<div align="center">
+<sub align="center">Figura 13 – Tela configuração de quadros</sub>
+</div>
+
+<div align="center">
+<img src="../assets/mockup/Boards-P2.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+---
+
+<div align="center">
+<sub align="center">Figura 13 – Tela configuração de quadros</sub>
+</div>
+
+<div align="center">
+<img src="../assets/mockup/columns-p1.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+---
+
+<div align="center">
+<sub align="center">Figura 13 – Tela configuração de quadros</sub>
+</div>
+
+<div align="center">
+<img src="../assets/mockup/columns-p2.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+---
+
+Link para o [Figma](https://www.figma.com/design/TB7TNIX9Dv7nx6j3e0QQtj/Untitled?node-id=0-1&t=Hv6TlWQjf2v8bU7o-1).
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 

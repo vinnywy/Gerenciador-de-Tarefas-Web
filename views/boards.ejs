@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Boards | Kanban</title>
+  <link rel="stylesheet" href="/css/boards.css">
+</head>
+<body>
+  <div class="boards-container">
+    <div class="header">
+      <h2>Meus Boards</h2>
+      <form method="POST" action="/logout" style="display:inline;">
+        <button type="submit" class="logout-btn">Sair</button>
+      </form>
+    </div>
+    <p class="welcome">Bem-vindo, <%= user.name %> (<%= user.email %>)</p>
+    <% if (error) { %>
+      <div class="error-popup"><%= error %></div>
+    <% } %>
+    <div class="boards-list">
+      <% if (boards.length === 0) { %>
+        <p>Nenhum board criado ainda.</p>
+      <% } else { %>
+       <% boards.forEach(function(board) { %>
+  <div class="board-card">
+    <div class="board-title"><%= board.nome %></div>
+    <button type="button" class="desc-btn" data-desc="<%- board.descricao ? board.descricao.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '' %>">Descrição</button>
+    <form method="GET" action="/kanban/<%= board.id %>" style="display:inline;">
+      <button type="submit" class="kanban-btn">Abrir</button>
+    </form>
+  </div>
+<% }); %>
+      <% } %>
+    </div>
+    <div class="new-board">
+      <h3>Criar novo board</h3>
+      <form method="POST" action="/boards" autocomplete="off">
+        <input type="text" name="nome" placeholder="Nome do Board" required>
+        <input type="text" name="descricao" placeholder="Descrição do Board">
+        <button type="submit">Criar</button>
+      </form>
+    </div>
+  </div>
+  <script>
+  document.querySelectorAll('.desc-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const desc = this.getAttribute('data-desc');
+      alert(desc ? desc : 'Sem descrição.');
+    });
+  });
+</script>
+</body>
+</html>

@@ -17,19 +17,20 @@
     <% if (error) { %>
       <div class="error-popup"><%= error %></div>
     <% } %>
-    <div class="boards-list">
+    <div class="boards-grid">
       <% if (boards.length === 0) { %>
         <p>Nenhum board criado ainda.</p>
       <% } else { %>
-       <% boards.forEach(function(board) { %>
-  <div class="board-card">
-    <div class="board-title"><%= board.nome %></div>
-    <button type="button" class="desc-btn" data-desc="<%- board.descricao ? board.descricao.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '' %>">Descrição</button>
-    <form method="GET" action="/kanban/<%= board.id %>" style="display:inline;">
-      <button type="submit" class="kanban-btn">Abrir</button>
-    </form>
-  </div>
-<% }); %>
+        <% boards.forEach(function(board) { %>
+          <div class="board-square">
+            <form method="GET" action="/kanban/<%= board.id %>">
+              <button type="submit" class="board-btn">
+                <div class="board-title"><%= board.nome %></div>
+              </button>
+            </form>
+            <button type="button" class="desc-btn" data-desc="<%- board.descricao ? board.descricao.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '' %>">Descrição</button>
+          </div>
+        <% }); %>
       <% } %>
     </div>
     <div class="new-board">
@@ -42,12 +43,12 @@
     </div>
   </div>
   <script>
-  document.querySelectorAll('.desc-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const desc = this.getAttribute('data-desc');
-      alert(desc ? desc : 'Sem descrição.');
+    document.querySelectorAll('.desc-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const desc = this.getAttribute('data-desc');
+        alert(desc ? desc : 'Sem descrição.');
+      });
     });
-  });
-</script>
+  </script>
 </body>
 </html>

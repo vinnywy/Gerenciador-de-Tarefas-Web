@@ -2,131 +2,184 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kanban - <%= board.nome %></title>
   <link rel="stylesheet" href="/css/kanban.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="/js/kanban.js" defer></script>
 </head>
 <body>
+  <!-- Header do Kanban -->
   <div class="kanban-header">
-    <h2><%= board.nome %></h2>
-    <form action="/boards" method="get"><button type="submit" class="back-btn">← Boards</button></form>
-    <span class="board-desc"><%= board.descricao %></span>
-    <span class="user-info"><%= user.name %> (<%= user.email %>)</span>
+    <div class="header-left">
+      <!-- Logo configurável e clicável -->
+      <div class="logo-container" id="logoContainer">
+        <script>
+          // Configuração da logo - facilmente alterável
+          const logoConfig = {
+            useImage: false, // Mude para true para usar imagem
+            imagePath: '/images/kanban-logo.png', // Caminho da imagem
+            text: 'KANBAMANIAC' // Texto alternativo
+          };
+
+          // Renderiza a logo baseada na configuração
+          if (logoConfig.useImage) {
+            document.write(`<img src="${logoConfig.imagePath}" alt="Logo" class="logo-image clickable-logo" title="Voltar para Boards">`);
+          } else {
+            document.write(`<div class="logo-text clickable-logo" title="Voltar para Boards">${logoConfig.text}</div>`);
+          }
+        </script>
+      </div>
+      
+      <h1 class="board-title"><%= board.nome %></h1>
+    </div>
+    
+    <div class="header-right">
+      <button class="user-button" onclick="window.location.href='/boards'">
+        <i class="fas fa-user"></i> <%= user.name %>
+      </button>
+    </div>
   </div>
+
+  <!-- Mensagem de erro (se houver) -->
   <% if (error) { %>
-    <div class="error-popup"><%= error %></div>
+    <div class="notification error" style="display: block;">
+      <i class="fas fa-exclamation-triangle"></i>
+      <%= error %>
+    </div>
   <% } %>
-  <div class="kanban-board">
+
+  <!-- Board principal do Kanban -->
+  <div class="kanban-board" id="kanbanBoard">
+    <!-- Colunas existentes -->
     <% columns.forEach(function(column) { %>
       <div class="kanban-column" data-column-id="<%= column.id %>">
+        <!-- Header da coluna -->
         <div class="column-header">
-          <input type="text" class="column-title" value="<%= column.titulo %>" data-column-id="<%= column.id %>">
+          <input type="text" 
+                 class="column-title" 
+                 value="<%= column.titulo %>" 
+                 data-column-id="<%= column.id %>">
+          
+          <button class="column-menu-btn" data-column-id="<%= column.id %>">
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
         </div>
-        <div class="tasks-list">
+
+        <!-- Lista de tarefas -->
+        <div class="tasks-list" 
+             data-column-id="<%= column.id %>">
+          
           <% column.tasks.forEach(function(task) { %>
-            <div class="task-card" data-task-id="<%= task.id %>">
+            <div class="task-card <%= task.prioridade %>" 
+                 data-task-id="<%= task.id %>"
+                 data-column-id="<%= column.id %>"
+                 draggable="true">
+              
               <div class="task-title"><%= task.titulo %></div>
-              <div class="task-priority <%= task.prioridade %>"><%= task.prioridade %></div>
-              <button class="edit-task-btn" data-task-id="<%= task.id %>">✎</button>
+              
+              <% if (task.descricao) { %>
+                <div class="task-description"><%= task.descricao %></div>
+              <% } %>
+              
+              <div class="task-meta">
+                <span class="task-priority <%= task.prioridade %>">
+                  <%= task.prioridade %>
+                </span>
+                
+                <div class="task-actions">
+                  <button class="task-action-btn edit" 
+                          data-task-id="<%= task.id %>"
+                          title="Editar tarefa">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  
+                  <button class="task-action-btn delete" 
+                          data-task-id="<%= task.id %>"
+                          title="Excluir tarefa">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           <% }); %>
         </div>
-        <button class="add-task-btn" data-column-id="<%= column.id %>">+ Nova Task</button>
+
+        <!-- Botão para adicionar nova tarefa -->
+        <button class="add-task-btn" data-column-id="<%= column.id %>">
+          <i class="fas fa-plus"></i> Adicionar tarefa
+        </button>
       </div>
     <% }); %>
-    <div class="kanban-column new-column">
-      <form method="POST" action="/kanban/<%= board.id %>/columns" autocomplete="off">
-        <input type="text" name="titulo" placeholder="Nova coluna" required>
-        <button type="submit">Adicionar coluna</button>
+
+    <!-- Coluna para adicionar nova coluna -->
+    <div class="new-column">
+      <form class="new-column-form" method="POST" action="/kanban/<%= board.id %>/columns" autocomplete="off">
+        <input type="text" 
+               name="titulo" 
+               placeholder="Nome da coluna" 
+               class="new-column-input"
+               required>
+        <button type="submit" class="new-column-btn">
+          <i class="fas fa-plus"></i> Adicionar coluna
+        </button>
       </form>
     </div>
   </div>
 
-  <!-- Modal/Popup para editar/CRIAR task -->
-  <div id="task-modal" class="modal" style="display:none;">
+  <!-- Modal para criar/editar tarefa -->
+  <div id="taskModal" class="modal" style="display: none;">
     <div class="modal-content">
-      <span class="close-btn">&times;</span>
-      <form id="task-form">
-        <input type="hidden" name="taskId" id="taskId">
-        <input type="hidden" name="coluna_id" id="coluna_id">
-        <label>Título:</label>
-        <input type="text" name="titulo" id="titulo" required>
-        <label>Descrição:</label>
-        <textarea name="descricao" id="descricao"></textarea>
-        <label>Prioridade:</label>
-        <select name="prioridade" id="prioridade">
-          <option value="baixa">Baixa</option>
-          <option value="média">Média</option>
-          <option value="alta">Alta</option>
-        </select>
-        <button type="submit">Salvar</button>
-      </form>
+      <div class="modal-header">
+        <h3 id="taskModalTitle">Nova Tarefa</h3>
+        <button class="close-btn" id="closeTaskModal">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <form id="taskForm">
+          <input type="hidden" id="taskId" name="taskId">
+          <input type="hidden" id="columnId" name="columnId">
+          
+          <div class="form-group">
+            <label for="taskTitle">Título *</label>
+            <input type="text" id="taskTitle" name="titulo" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="taskDescription">Descrição</label>
+            <textarea id="taskDescription" name="descricao" placeholder="Descreva os detalhes da tarefa..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="taskPriority">Prioridade</label>
+            <select id="taskPriority" name="prioridade">
+              <option value="baixa">Baixa</option>
+              <option value="média">Média</option>
+              <option value="alta">Alta</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" id="cancelTaskModal">Cancelar</button>
+        <button type="button" class="btn-primary" id="saveTask">Salvar</button>
+      </div>
     </div>
   </div>
 
-  <script>
-    // Editar título da coluna
-    document.querySelectorAll('.column-title').forEach(input => {
-      input.addEventListener('change', function() {
-        fetch(`/kanban/columns/${this.dataset.columnId}/edit`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ titulo: this.value })
-        });
-      });
-    });
+  <!-- Menu de contexto para colunas -->
+  <div id="columnContextMenu" class="context-menu" style="display: none;">
+    <div class="menu-item" id="editColumnTitle">
+      <i class="fas fa-edit"></i> Editar título
+    </div>
+    <div class="menu-item danger" id="deleteColumn">
+      <i class="fas fa-trash"></i> Excluir coluna
+    </div>
+  </div>
 
-    // Modal de Task
-    const modal = document.getElementById('task-modal');
-    const closeBtn = document.querySelector('.close-btn');
-    closeBtn.onclick = () => { modal.style.display = 'none'; };
+  <!-- Overlay para fechar modais -->
+  <div id="overlay" class="overlay" style="display: none;"></div>
 
-    // Nova task
-    document.querySelectorAll('.add-task-btn').forEach(btn => {
-      btn.onclick = function() {
-        document.getElementById('taskId').value = '';
-        document.getElementById('coluna_id').value = btn.dataset.columnId;
-        document.getElementById('titulo').value = '';
-        document.getElementById('descricao').value = '';
-        document.getElementById('prioridade').value = 'média';
-        modal.style.display = 'block';
-      };
-    });
-
-    // Editar task
-    document.querySelectorAll('.edit-task-btn').forEach(btn => {
-      btn.onclick = function() {
-        const taskId = btn.dataset.taskId;
-        fetch(`/kanban/tasks/${taskId}/edit`, { method: 'GET' })
-        .then(res => res.json())
-        .then(task => {
-          document.getElementById('taskId').value = task.id;
-          document.getElementById('coluna_id').value = task.coluna_id;
-          document.getElementById('titulo').value = task.titulo;
-          document.getElementById('descricao').value = task.descricao;
-          document.getElementById('prioridade').value = task.prioridade;
-          modal.style.display = 'block';
-        });
-      };
-    });
-
-    // Salvar task (criar ou editar)
-    document.getElementById('task-form').onsubmit = function(e) {
-      e.preventDefault();
-      const isEdit = document.getElementById('taskId').value !== '';
-      const url = isEdit
-        ? `/kanban/tasks/${document.getElementById('taskId').value}/edit`
-        : `/kanban/tasks`;
-      fetch(url, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          titulo: document.getElementById('titulo').value,
-          descricao: document.getElementById('descricao').value,
-          prioridade: document.getElementById('prioridade').value,
-          coluna_id: document.getElementById('coluna_id').value
-        })
-      }).then(() => { location.reload(); });
-    };
-  </script>
 </body>
 </html>

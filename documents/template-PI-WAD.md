@@ -232,7 +232,62 @@ INSERT INTO comments (content, tarefa_id, autor_id) VALUES
 ```
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+
+#### **User.js**
+```javascript
+// Campos: id, name, email, created_at
+static async findByEmail(email)     // Busca usuário por email para login
+static async create(userData)       // Cria novo usuário
+static async findById(id)          // Busca usuário por ID
+``` 
+Função: Gerenciamento de usuários e autenticação
+Validação: Email único, campos obrigatórios
+
+#### **Board.js**
+```javascript
+// Campos: id, nome, descricao, usuario_id, criado_em
+static async findByUserId(userId)   // Lista boards do usuário
+static async create(boardData)      // Cria novo board
+static async findById(id)          // Busca board específico
+static async delete(id)            // Remove board e dependências
+async isOwner(userId)              // Verifica propriedade
+```
+Função: Quadros kanban do usuário
+Relacionamento: 1 User → N Boards
+
+#### **Column.js**
+
+```javascript
+// Campos: id, titulo, posicao, board_id, criado_em
+static async findByBoardId(boardId) // Lista colunas do board
+static async create(columnData)     // Cria nova coluna
+static async updateTitle(id, title) // Atualiza título
+static async delete(id)            // Remove coluna
+async isOwner(userId)              // Verifica propriedade via board
+```
+Função: Colunas do kanban (A Fazer, Em Progresso, Concluído)
+Relacionamento: 1 Board → N Columns
+
+#### **Task.js**
+```javascript
+// Campos: id, titulo, descricao, prioridade, coluna_id, responsavel_id, 
+//         data_criacao, data_limite, posicao
+static async findByColumnId(columnId) // Lista tarefas da coluna
+static async create(taskData)         // Cria nova tarefa
+static async update(id, taskData)     // Atualiza tarefa
+static async delete(id)              // Remove tarefa
+static async moveToColumn(id, newColumnId, newPosition) // Move entre colunas
+async isOwner(userId)                // Verifica propriedade
+```
+Função: Tarefas individuais com drag & drop
+Relacionamento: 1 Column → N Tasks, 1 User → N Tasks (responsável)
+Características Técnicas:
+Pool de Conexões: PostgreSQL com gerenciamento automático
+Transações: Operações complexas com rollback
+Validação: Propriedade de dados por usuário
+Performance: Queries otimizadas com JOINs
+Integridade: Cascade deletes e foreign keys
+
 
 ### 3.2. Arquitetura (Semana 5)
 
@@ -425,13 +480,134 @@ Link para o [Figma](https://www.figma.com/design/TB7TNIX9Dv7nx6j3e0QQtj/Untitled
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+#### **Autenticação**
+
+**POST /login**
+- **Descrição**: Autentica usuário no sistema
+- **Body**: `{ email: string }`
+- **Resposta**: Redirect para `/boards` ou erro de validação
+- **Validação**: Email deve existir na base de dados
+
+**GET /logout**
+- **Descrição**: Encerra sessão do usuário
+- **Resposta**: Redirect para `/login`
+
+#### **Boards (Quadros)**
+
+**GET /boards**
+- **Descrição**: Lista todos os boards do usuário autenticado
+- **Resposta**: Página com lista de boards
+- **Autenticação**: Requerida
+
+**POST /boards**
+- **Descrição**: Cria novo board
+- **Body**: `{ nome: string, descricao?: string }`
+- **Resposta**: JSON `{ success: boolean, board?: object }` ou redirect
+- **Validação**: Nome obrigatório
+
+**DELETE /boards/:id**
+- **Descrição**: Remove board e todas suas dependências
+- **Parâmetros**: `id` (integer)
+- **Resposta**: JSON `{ success: boolean }`
+- **Validação**: Usuário deve ser proprietário
+
+#### **Kanban (Colunas e Tarefas)**
+
+**GET /kanban/:boardId**
+- **Descrição**: Exibe board kanban com colunas e tarefas
+- **Parâmetros**: `boardId` (integer)
+- **Resposta**: Página kanban completa
+- **Validação**: Usuário deve ser proprietário do board
+
+**POST /kanban/:boardId/columns**
+- **Descrição**: Cria nova coluna no board
+- **Body**: `{ titulo: string }`
+- **Resposta**: JSON `{ success: boolean, column?: object }`
+
+**PUT /kanban/columns/:id/title**
+- **Descrição**: Atualiza título da coluna
+- **Body**: `{ titulo: string }`
+- **Resposta**: JSON `{ success: boolean }`
+
+**DELETE /kanban/columns/:id**
+- **Descrição**: Remove coluna e reorganiza tarefas
+- **Resposta**: JSON `{ success: boolean }`
+
+**POST /kanban/:boardId/tasks**
+- **Descrição**: Cria nova tarefa
+- **Body**: `{ titulo: string, descricao?: string, prioridade?: string, coluna_id: integer, data_limite?: date }`
+- **Resposta**: JSON `{ success: boolean, task?: object }`
+
+**PUT /kanban/tasks/:id**
+- **Descrição**: Atualiza dados da tarefa
+- **Body**: `{ titulo?: string, descricao?: string, prioridade?: string, data_limite?: date }`
+- **Resposta**: JSON `{ success: boolean }`
+
+**PUT /kanban/tasks/:id/move**
+- **Descrição**: Move tarefa entre colunas (drag & drop)
+- **Body**: `{ newColumnId: integer, newPosition: integer }`
+- **Resposta**: JSON `{ success: boolean }`
+- **Funcionalidade**: Reorganiza posições automaticamente
+
+**DELETE /kanban/tasks/:id**
+- **Descrição**: Remove tarefa
+- **Resposta**: JSON `{ success: boolean }`
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+#### **Arquitetura Frontend**
 
----
+O frontend foi desenvolvido seguindo o padrão **MVC** com **EJS** como template engine, proporcionando uma interface responsiva e intuitiva para o gerenciamento de tarefas em formato Kanban.
+
+#### **Páginas Implementadas**
+
+**1. Página de Login**
+- Interface minimalista com validação de email
+- Design responsivo com paleta escura (#2c2c2c) e acentos dourados (#ffd700)
+- Logo centralizada com texto "KANBAMANIAC" em dourado
+- Formulário compacto otimizado para não necessitar scroll
+- Emails de teste disponíveis para demonstração
+
+*Características técnicas:*
+- Validação client-side e server-side
+- Redirecionamento automático após autenticação
+- Layout responsivo para mobile e desktop
+
+**2. Dashboard de Boards**
+- Lista de quadros kanban do usuário em formato de cards
+- Interface para criação de novos boards
+- Navegação intuitiva para acessar cada quadro
+- Topbar consistente com logo, nome do usuário e logout
+
+*Funcionalidades:*
+- CRUD completo de boards
+- Cards responsivos com informações do projeto
+- Confirmação para exclusão de boards
+
+**3. Interface Kanban Principal**
+- Layout de 3 colunas padrão: "A Fazer", "Em Progresso", "Concluído"
+- Sistema de **Drag & Drop** funcional entre colunas
+- Cards de tarefas com informações detalhadas (título, descrição, prioridade, prazo)
+- Modais para criação e edição de tarefas
+- Edição inline de títulos de colunas
+
+*Recursos avançados:*
+- Indicadores visuais de prioridade (cores)
+- Animações suaves para transições
+- Feedback visual durante drag & drop
+- Persistência automática de mudanças
+
+#### **Funcionalidades de Interface**
+
+**Sistema Drag & Drop**
+```javascript
+// Implementação robusta com:
+- Event listeners otimizados sem duplicação
+- Validação de dados com fallback JSON/text
+- Animações suaves de transição entre colunas
+- Feedback visual em tempo real
+- Persistência automática no backend via AJAX
+```
 
 ## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
 
@@ -442,8 +618,43 @@ Link para o [Figma](https://www.figma.com/design/TB7TNIX9Dv7nx6j3e0QQtj/Untitled
 
 ### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
 
-*Indique pontos fortes e pontos a melhorar de maneira geral.*
-*Relacione também quaisquer outras ideias que você tenha para melhorias futuras.*
+#### **Pontos Fortes**
+
+- **Arquitetura MVC robusta** com separação clara de responsabilidades
+- **CRUD completo** para boards, colunas e tarefas
+- **Design system consistente** com paleta de cores
+
+#### **Pontos a Melhorar**
+
+- **Performance**: Implementar paginação e cache para projetos grandes
+- **Colaboração**: Sistema multi-usuário em tempo real
+- **Funcionalidades**: Filtros, busca, comentários e anexos
+- **Segurança**: Autenticação JWT e rate limiting
+- **Testes**: Cobertura automatizada unitária e de integração
+
+#### **Trabalhos Futuros**
+
+**Curto Prazo:**
+- Sistema de convites para colaboração
+- Filtros e busca avançada de tarefas
+- Dashboard com métricas de produtividade
+- Notificações por email
+
+**Médio Prazo:**
+- Templates de boards
+- Integração com calendários
+- API pública para integrações
+- Aplicativo mobile nativo
+
+**Longo Prazo:**
+- IA para sugestões de organização
+- Integração com ferramentas de desenvolvimento
+- Sistema de relatórios avançados
+- Versão enterprise
+
+#### **Considerações Finais**
+
+O sistema desenvolvido atende com sucesso aos requisitos propostos, entregando uma solução completa e funcional para gerenciamento de projetos em metodologia Kanban. A implementação demonstra domínio técnico em desenvolvimento full-stack, desde a modelagem de banco de dados PostgreSQL até a criação de interfaces responsivas com funcionalidades avançadas como drag & drop.
 
 
 

@@ -2,20 +2,90 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Login | Kanban</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'Login - Kanban Board' %></title>
   <link rel="stylesheet" href="/css/login.css">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
   <div class="login-container">
-    <h2>Login</h2>
+    <!-- Logo/Imagem da aplicação -->
+    <div class="logo-container">
+      <img src="/images/Logo.png" alt="Kanbamaniac Logo" class="logo-image">
+      <div class="logo-golden">KANBAMANIAC</div>
+    </div>
+
+    <!-- Mensagem de erro (se houver) -->
     <% if (error) { %>
-      <div class="error-popup"><%= error %></div>
+      <div class="error-popup">
+        <strong>⚠️ <%= error %></strong>
+      </div>
     <% } %>
-    <form method="POST" action="/login" autocomplete="off">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required autofocus>
-      <button type="submit">Entrar</button>
+
+    <!-- Formulário de login -->
+    <form class="login-form" method="POST" action="/login" autocomplete="off">
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Digite seu email"
+          required
+          autofocus
+          autocomplete="email"
+        >
+      </div>
+
+      <button type="submit" id="loginBtn">
+        LOG IN
+      </button>
     </form>
+
+    <!-- Informações adicionais -->
+    <div style="font-size: 11px; color: #888; line-height: 1.3;">
+      <p style="margin-bottom: 8px;">Use qualquer email cadastrado no sistema</p>
+      <p style="margin: 0;">
+        <strong>Emails de teste:</strong><br>
+        ana.souza@example.com<br>
+        carlos.lima@example.com<br>
+        bia.ramos@example.com<br>
+        daniel.rocha@example.com
+      </p>
+    </div>
   </div>
+
+  <!-- Script para melhorar a experiência do usuário -->
+  <script>
+    // Adiciona feedback visual durante o envio do formulário
+    document.querySelector('.login-form').addEventListener('submit', function(e) {
+      const button = document.getElementById('loginBtn');
+      const originalText = button.textContent;
+
+      button.textContent = 'ENTRANDO...';
+      button.disabled = true;
+
+      // Se houver erro, o formulário será recarregado e o botão voltará ao normal
+      // Se houver sucesso, o usuário será redirecionado
+    });
+
+    // Remove mensagem de erro após alguns segundos
+    const errorPopup = document.querySelector('.error-popup');
+    if (errorPopup) {
+      setTimeout(() => {
+        errorPopup.style.opacity = '0';
+        setTimeout(() => {
+          errorPopup.style.display = 'none';
+        }, 300);
+      }, 5000);
+    }
+
+    // Melhora a experiência do campo de email
+    const emailInput = document.getElementById('email');
+    emailInput.addEventListener('input', function() {
+      // Remove espaços em branco
+      this.value = this.value.trim();
+    });
+  </script>
 </body>
 </html>

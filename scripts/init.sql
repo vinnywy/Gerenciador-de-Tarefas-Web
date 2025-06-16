@@ -52,7 +52,7 @@ create table comments (
 -- Users
 INSERT INTO users (name, email) VALUES
   ('Ana Souza', 'ana.souza@example.com'),
-  ('Carlos Lima', 'n'),
+  ('Carlos Lima', 'carlos.lima@example.com'),
   ('Beatriz Ramos', 'bia.ramos@example.com'),
   ('Daniel Rocha', 'daniel.rocha@example.com');
 

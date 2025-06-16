@@ -2,53 +2,257 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Boards | Kanban</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'Meus Boards - Kanban' %></title>
   <link rel="stylesheet" href="/css/boards.css">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <!-- Font Awesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
   <div class="boards-container">
-    <div class="header">
-      <h2>Meus Boards</h2>
-      <form method="POST" action="/logout" style="display:inline;">
-        <button type="submit" class="logout-btn">Sair</button>
-      </form>
-    </div>
-    <p class="welcome">Bem-vindo, <%= user.name %> (<%= user.email %>)</p>
+    <!-- Header da página -->
+    <header class="kanban-header">
+      <div class="header-left">
+        <!-- Logo configurável e clicável -->
+        <div class="logo-container" id="logoContainer">
+          <script>
+            // Configuração da logo - facilmente alterável
+            const logoConfig = {
+              useImage: false, // Mude para true para usar imagem
+              imagePath: '/images/logo.png', // Caminho da imagem
+              text: 'KANBAMANIAC' // Texto alternativo
+            };
+
+            // Renderiza a logo baseada na configuração
+            if (logoConfig.useImage) {
+              document.write(`<img src="${logoConfig.imagePath}" alt="Logo" class="logo-image clickable-logo" title="Página Principal">`);
+            } else {
+              document.write(`<div class="logo-text clickable-logo" title="Página Principal">${logoConfig.text}</div>`);
+            }
+          </script>
+        </div>
+
+        <h1 class="board-title">Meus Boards</h1>
+      </div>
+
+      <div class="header-right">
+        <button class="user-button" onclick="showUserMenu(event)">
+          <i class="fas fa-user"></i> <%= user.name %>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mensagens de feedback -->
     <% if (error) { %>
-      <div class="error-popup"><%= error %></div>
+      <div class="message error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <%= error %>
+      </div>
     <% } %>
-    <div class="boards-grid">
-      <% if (boards.length === 0) { %>
-        <p>Nenhum board criado ainda.</p>
-      <% } else { %>
-        <% boards.forEach(function(board) { %>
-          <div class="board-square">
-            <form method="GET" action="/kanban/<%= board.id %>">
-              <button type="submit" class="board-btn">
-                <div class="board-title"><%= board.nome %></div>
-              </button>
-            </form>
-            <button type="button" class="desc-btn" data-desc="<%- board.descricao ? board.descricao.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : '' %>">Descrição</button>
+
+    <% if (success) { %>
+      <div class="message success-message">
+        <i class="fas fa-check-circle"></i>
+        <%= success %>
+      </div>
+    <% } %>
+
+    <!-- Seção de boards -->
+    <section class="boards-section">
+      <h2 class="section-title">
+        <i class="fas fa-columns"></i>
+        Seus Quadros Kanban
+        <span style="font-size: 14px; font-weight: normal; color: #7f8c8d;">
+          (<%= boards.length %> <%= boards.length === 1 ? 'board' : 'boards' %>)
+        </span>
+      </h2>
+
+      <div class="boards-grid">
+        <!-- Card para criar novo board -->
+        <div class="new-board-card" onclick="openCreateModal()">
+          <div class="new-board-icon">
+            <i class="fas fa-plus"></i>
           </div>
-        <% }); %>
-      <% } %>
-    </div>
-    <div class="new-board">
-      <h3>Criar novo board</h3>
-      <form method="POST" action="/boards" autocomplete="off">
-        <input type="text" name="nome" placeholder="Nome do Board" required>
-        <input type="text" name="descricao" placeholder="Descrição do Board">
-        <button type="submit">Criar</button>
+          <div class="new-board-text">Criar Novo Board</div>
+          <div class="new-board-subtitle">Clique para adicionar um quadro</div>
+        </div>
+
+        <!-- Cards dos boards existentes -->
+        <% if (boards.length > 0) { %>
+          <% boards.forEach(board => { %>
+            <div class="board-card" data-board-id="<%= board.id %>">
+              <div class="board-header">
+                <h3 class="board-title" onclick="goToBoard(<%= board.id %>)">
+                  <%= board.nome %>
+                </h3>
+                <div class="board-menu">
+                  <button class="menu-btn" onclick="openBoardMenu(event, <%= board.id %>)">
+                    <i class="fas fa-ellipsis-v"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="board-description">
+                <%= board.descricao || 'Sem descrição disponível' %>
+              </div>
+
+              <div class="board-stats">
+                <div class="stat-item">
+                  <i class="fas fa-columns stat-icon"></i>
+                  <span><%= board.total_colunas || 0 %> colunas</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-tasks stat-icon"></i>
+                  <span><%= board.total_tarefas || 0 %> tarefas</span>
+                </div>
+                <div class="board-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  <%= new Date(board.criado_em).toLocaleDateString('pt-BR') %>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <!-- Estado vazio -->
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <div class="empty-icon">
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+            <h3 class="empty-title">Nenhum board encontrado</h3>
+            <p class="empty-description">
+              Você ainda não criou nenhum quadro Kanban.
+              Clique no botão "+" para criar seu primeiro board e começar a organizar suas tarefas!
+            </p>
+          </div>
+        <% } %>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal para criar/editar board -->
+  <div id="boardModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Criar Novo Board</h3>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+
+      <form id="boardForm">
+        <div class="form-group">
+          <label for="boardName">Nome do Board *</label>
+          <input type="text" id="boardName" name="nome" required maxlength="100">
+        </div>
+
+        <div class="form-group">
+          <label for="boardDescription">Descrição</label>
+          <textarea id="boardDescription" name="descricao" rows="4" maxlength="500"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn-primary" id="submitBtn">Criar Board</button>
+        </div>
       </form>
     </div>
   </div>
+
+  <!-- Menu de contexto para boards -->
+  <div id="contextMenu" class="context-menu" style="display: none;">
+    <div class="menu-item" onclick="viewBoardDetails()">
+      <i class="fas fa-eye"></i> Ver Detalhes
+    </div>
+    <div class="menu-item" onclick="editBoard()">
+      <i class="fas fa-edit"></i> Editar
+    </div>
+    <div class="menu-item danger" onclick="deleteBoard()">
+      <i class="fas fa-trash"></i> Excluir
+    </div>
+  </div>
+
+  <!-- Overlay para modais -->
+  <div id="overlay" class="overlay" style="display: none;" onclick="closeModal()"></div>
+
+  <!-- JavaScript para funcionalidades interativas -->
+  <script src="/js/boards.js"></script>
+
+  <!-- Script inline para configuração da logo -->
   <script>
-    document.querySelectorAll('.desc-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const desc = this.getAttribute('data-desc');
-        alert(desc ? desc : 'Sem descrição.');
-      });
+    // Configuração da logo - pode ser facilmente alterada
+    const logoConfig = {
+      useImage: false, // Mude para true para usar imagem
+      imagePath: '/images/logo.png', // Caminho da imagem
+      text: 'KANBAMANIAC' // Texto alternativo
+    };
+
+    // Aplica a configuração da logo
+    document.addEventListener('DOMContentLoaded', function() {
+      const logoImg = document.getElementById('logo-img');
+      const logoText = document.getElementById('logo-text');
+
+      if (logoConfig.useImage) {
+        logoImg.src = logoConfig.imagePath;
+        logoImg.style.display = 'block';
+        logoText.style.display = 'none';
+      } else {
+        logoText.textContent = logoConfig.text;
+        logoImg.style.display = 'none';
+        logoText.style.display = 'block';
+      }
     });
+
+    // Remove mensagens após alguns segundos
+    setTimeout(() => {
+      const messages = document.querySelectorAll('.message');
+      messages.forEach(msg => {
+        msg.style.opacity = '0';
+        setTimeout(() => msg.remove(), 300);
+      });
+    }, 5000);
+
+    // Menu do usuário
+    function showUserMenu(event) {
+      event.preventDefault();
+
+      // Cria menu de contexto
+      const menu = document.createElement('div');
+      menu.className = 'user-menu';
+      menu.style.position = 'fixed';
+      menu.style.top = (event.clientY + 10) + 'px';
+      menu.style.right = '20px';
+      menu.style.background = '#2d2d2d';
+      menu.style.border = '1px solid #404040';
+      menu.style.borderRadius = '8px';
+      menu.style.padding = '8px 0';
+      menu.style.zIndex = '1000';
+      menu.style.minWidth = '150px';
+      menu.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+
+      menu.innerHTML = `
+        <div style="padding: 8px 16px; color: #cccccc; font-size: 12px; border-bottom: 1px solid #404040; margin-bottom: 4px;">
+          <strong><%= user.name %></strong><br>
+          <span style="color: #999;"><%= user.email %></span>
+        </div>
+        <a href="/logout" style="display: block; padding: 8px 16px; color: #ffffff; text-decoration: none; transition: background 0.3s ease;"
+           onmouseover="this.style.background='#404040'" onmouseout="this.style.background='transparent'">
+          <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+      `;
+
+      // Remove menus existentes
+      document.querySelectorAll('.user-menu').forEach(m => m.remove());
+
+      // Adiciona novo menu
+      document.body.appendChild(menu);
+
+      // Fecha menu ao clicar fora
+      setTimeout(() => {
+        document.addEventListener('click', function closeMenu() {
+          menu.remove();
+          document.removeEventListener('click', closeMenu);
+        });
+      }, 100);
+    }
   </script>
 </body>
 </html>

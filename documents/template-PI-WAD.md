@@ -109,7 +109,7 @@ O desenvolvimento da aplicação utilizará tecnologias modernas como HTML, CSS,
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 
-#### Esquema de Modelo Relacional
+#### Esquema de Modelo Relacional Inicial
 
 <div align="center">
 <sub align="center">Figura 5 – Modelo Lógico - Banco de Dados</sub>
@@ -117,6 +117,20 @@ O desenvolvimento da aplicação utilizará tecnologias modernas como HTML, CSS,
 
 <div align="center">
 <img src="../assets/modelo_logico_bd.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+#### Esquema Relacional Atualizado
+
+<div align="center">
+<sub align="center">Figura 6 – Modelo Lógico Atualizado - Banco de Dados</sub>
+</div>
+
+<div align="center">
+<img src="../assets/schm_2.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
 </div>
 
 <div align="center">
@@ -164,7 +178,8 @@ create table tasks (
   responsavel_id int references users(id) on delete set null,
   data_criacao timestamp default now(),
   data_limite date,
-  posicao integer
+  posicao integer,
+  atualizado_em timestamp default now()
 );
 
 -- Comentários pertencem a uma tarefa e têm um autor
@@ -231,6 +246,30 @@ INSERT INTO comments (content, tarefa_id, autor_id) VALUES
 
 ```
 
+##### Verifica se tabela existe antes de popular
+
+``` jsx
+-- Verifica se a coluna já existe antes de adicionar
+DO $$ 
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM information_schema.columns 
+        WHERE table_name = 'tasks' 
+        AND column_name = 'atualizado_em'
+    ) THEN
+        ALTER TABLE tasks ADD COLUMN atualizado_em timestamp DEFAULT now();
+        
+        -- Atualiza registros existentes com a data de criação
+        UPDATE tasks SET atualizado_em = data_criacao WHERE atualizado_em IS NULL;
+        
+        RAISE NOTICE 'Campo atualizado_em adicionado com sucesso à tabela tasks';
+    ELSE
+        RAISE NOTICE 'Campo atualizado_em já existe na tabela tasks';
+    END IF;
+END $$;
+```
+
 ### 3.1.1 BD e Models (Semana 5)
 
 #### **User.js**
@@ -291,14 +330,18 @@ Integridade: Cascade deletes e foreign keys
 
 ### 3.2. Arquitetura (Semana 5)
 
-*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+<div align="center">
+<sub align="center">Figura 7 – Diagrama</sub>
+</div>
 
-**Instruções para criação do diagrama de arquitetura**  
-- **Model**: A camada que lida com a lógica de negócios e interage com o banco de dados.
-- **View**: A camada responsável pela interface de usuário.
-- **Controller**: A camada que recebe as requisições, processa as ações e atualiza o modelo e a visualização.
-  
-*Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
+<div align="center">
+<img src="../assets/diagrama.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
 
 ### 3.3. Wireframes (Semana 03)
 
@@ -612,6 +655,165 @@ O frontend foi desenvolvido seguindo o padrão **MVC** com **EJS** como template
 ## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
 
 ### 4.1 Demonstração do Sistema Web (Semana 8)
+
+#### **Tela de Login**
+
+<div align="center">
+<sub align="center">Figura 14 – Tela de Login</sub>
+</div>
+
+<div align="center">
+<img src="../assets/loginfinal.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+##### Login com email 
+
+<div align="center">
+<sub align="center">Figura 14 – Tela de Login</sub>
+</div>
+
+<div align="center">
+<img src="../assets/login2.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+---
+
+#### **Tela de Boards**
+
+<div align="center">
+<sub align="center">Figura 16 – Tela de Board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/board1.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+##### Criação de board
+
+<div align="center">
+<sub align="center">Figura 16 – Tela de Board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/board2.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+<div align="center">
+<sub align="center">Figura 16 – Tela de Board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/b3
+.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+<div align="center">
+<sub align="center">Figura 16 – Tela de Board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/b4
+.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+#### **Tela de Kanban**
+
+<div align="center">
+<sub align="center">Figura 16 – Tela de Board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/b5
+.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+<div align="center">
+<sub align="center">Figura 16 – Tela de Board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/b6
+.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+<div align="center">
+<sub align="center">Figura 16 – Tela de Board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/b6
+.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+<div align="center">
+<sub align="center">Figura 16 – Tela de Board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/b7
+.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
+
+<div align="center">
+<sub align="center">Figura 16 – Tela de Board</sub>
+</div>
+
+<div align="center">
+<img src="../assets/b8
+.png" alt="Value Proposition Canvas" border="0" width=100% height=100%>
+</div>
+
+<div align="center">
+<sup>Source: Produzido pelo autor, 2025.</sup>
+</div>
 
 https://drive.google.com/drive/folders/1Rt52Q7tsFR0g9LB1nIQFUW8HlB4ybbj3
 

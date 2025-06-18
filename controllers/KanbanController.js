@@ -4,14 +4,9 @@ const Task = require('../models/Task');
 const pool = require('../config/database');
 
 /**
- * Controller para gerenciamento do Kanban
- * Implementa todas as operações CRUD para colunas e tarefas
- */
-
-/**
- * Renderiza a página Kanban de um board específico
- * @param {Object} req - Request object
- * @param {Object} res - Response object
+  Renderiza a página Kanban de um board específico
+  @param {Object} req - Request object
+  @param {Object} res - Response object
  */
 exports.getKanban = async (req, res) => {
   if (!req.session.user) return res.redirect('/login');
@@ -54,9 +49,9 @@ exports.getKanban = async (req, res) => {
 };
 
 /**
- * Cria uma nova coluna no board
- * @param {Object} req - Request object
- * @param {Object} res - Response object
+  Cria uma nova coluna no board
+  @param {Object} req - Request object
+  @param {Object} res - Response object
  */
 exports.createColumn = async (req, res) => {
   if (!req.session.user) return res.redirect('/login');
@@ -87,9 +82,9 @@ exports.createColumn = async (req, res) => {
 };
 
 /**
- * Atualiza o título de uma coluna
- * @param {Object} req - Request object
- * @param {Object} res - Response object
+  Atualiza o título de uma coluna
+ @param {Object} req - Request object
+  @param {Object} res - Response object
  */
 exports.editColumn = async (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: 'Não autorizado' });
@@ -114,9 +109,9 @@ exports.editColumn = async (req, res) => {
 };
 
 /**
- * Remove uma coluna e todas as suas tarefas
- * @param {Object} req - Request object
- * @param {Object} res - Response object
+  Remove uma coluna e todas as suas tarefas
+  @param {Object} req - Request object
+  @param {Object} res - Response object
  */
 exports.deleteColumn = async (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: 'Não autorizado' });
@@ -144,9 +139,9 @@ exports.deleteColumn = async (req, res) => {
 };
 
 /**
- * Cria uma nova tarefa
- * @param {Object} req - Request object
- * @param {Object} res - Response object
+  Cria uma nova tarefa
+  @param {Object} req - Request object
+  @param {Object} res - Response object
  */
 exports.createTask = async (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: 'Não autorizado' });
@@ -184,9 +179,9 @@ exports.createTask = async (req, res) => {
 };
 
 /**
- * Busca detalhes de uma tarefa para edição
- * @param {Object} req - Request object
- * @param {Object} res - Response object
+  Busca detalhes de uma tarefa para edição
+  @param {Object} req - Request object
+  @param {Object} res - Response object
  */
 exports.getTaskDetails = async (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: 'Não autorizado' });
@@ -214,9 +209,9 @@ exports.getTaskDetails = async (req, res) => {
 };
 
 /**
- * Atualiza uma tarefa existente
- * @param {Object} req - Request object
- * @param {Object} res - Response object
+  Atualiza uma tarefa existente
+  @param {Object} req - Request object
+  @param {Object} res - Response object
  */
 exports.editTask = async (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: 'Não autorizado' });
@@ -247,9 +242,9 @@ exports.editTask = async (req, res) => {
 };
 
 /**
- * Remove uma tarefa
- * @param {Object} req - Request object
- * @param {Object} res - Response object
+  Remove uma tarefa
+  @param {Object} req - Request object
+  @param {Object} res - Response object
  */
 exports.deleteTask = async (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: 'Não autorizado' });
@@ -283,9 +278,9 @@ exports.deleteTask = async (req, res) => {
 };
 
 /**
- * Move uma tarefa para outra coluna ou posição
- * @param {Object} req - Request object
- * @param {Object} res - Response object
+  Move uma tarefa para outra coluna ou posição
+  @param {Object} req - Request object
+  @param {Object} res - Response object
  */
 exports.moveTask = async (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: 'Não autorizado' });

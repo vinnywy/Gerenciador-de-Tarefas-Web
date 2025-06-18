@@ -34,7 +34,8 @@ create table tasks (
   responsavel_id int references users(id) on delete set null,
   data_criacao timestamp default now(),
   data_limite date,
-  posicao integer
+  posicao integer,
+  atualizado_em timestamp default now()
 );
 
 -- Comentários pertencem a uma tarefa e têm um autor

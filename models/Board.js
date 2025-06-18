@@ -1,14 +1,10 @@
 const pool = require('../config/database');
 
-/**
- * Modelo Board - Responsável pela interação com a tabela boards no banco de dados
- * Segue o padrão MVC para separação de responsabilidades
- */
 
 /**
- * Busca todos os boards de um usuário específico
- * @param {number} usuario_id - ID do usuário
- * @returns {Array} - Array com os boards do usuário
+  Busca todos os boards de um usuário específico
+  @param {number} usuario_id - ID do usuário
+  @returns {Array} - Array com os boards do usuário
  */
 const findByUserId = async (usuario_id) => {
   try {
@@ -35,9 +31,9 @@ const findByUserId = async (usuario_id) => {
 };
 
 /**
- * Busca um board específico pelo ID
- * @param {number} id - ID do board
- * @returns {Object|null} - Objeto do board ou null se não encontrado
+  Busca um board específico pelo ID
+  @param {number} id - ID do board
+  @returns {Object|null} - Objeto do board ou null se não encontrado
  */
 const findById = async (id) => {
   try {
@@ -59,12 +55,12 @@ const findById = async (id) => {
 };
 
 /**
- * Cria um novo board
- * @param {Object} boardData - Dados do board
- * @param {string} boardData.nome - Nome do board
- * @param {string} boardData.descricao - Descrição do board
- * @param {number} boardData.usuario_id - ID do usuário proprietário
- * @returns {Object} - Board criado
+  Cria um novo board
+  @param {Object} boardData - Dados do board
+  @param {string} boardData.nome - Nome do board
+  @param {string} boardData.descricao - Descrição do board
+  @param {number} boardData.usuario_id - ID do usuário proprietário
+  @returns {Object} - Board criado
  */
 const create = async ({ nome, descricao, usuario_id }) => {
   try {
@@ -87,10 +83,10 @@ const create = async ({ nome, descricao, usuario_id }) => {
 };
 
 /**
- * Atualiza um board existente
- * @param {number} id - ID do board
- * @param {Object} updateData - Dados para atualização
- * @returns {Object|null} - Board atualizado ou null se não encontrado
+  Atualiza um board existente
+  @param {number} id - ID do board
+  @param {Object} updateData - Dados para atualização
+  @returns {Object|null} - Board atualizado ou null se não encontrado
  */
 const update = async (id, { nome, descricao }) => {
   try {
@@ -109,9 +105,9 @@ const update = async (id, { nome, descricao }) => {
 };
 
 /**
- * Remove um board e todas as suas dependências
- * @param {number} id - ID do board
- * @returns {boolean} - true se removido com sucesso
+  Remove um board e todas as suas dependências
+  @param {number} id - ID do board
+  @returns {boolean} - true se removido com sucesso
  */
 const remove = async (id) => {
   try {
@@ -125,8 +121,8 @@ const remove = async (id) => {
 };
 
 /**
- * Cria colunas padrão para um novo board
- * @param {number} boardId - ID do board
+  Cria colunas padrão para um novo board
+  @param {number} boardId - ID do board
  */
 const createDefaultColumns = async (boardId) => {
   try {
@@ -149,10 +145,10 @@ const createDefaultColumns = async (boardId) => {
 };
 
 /**
- * Verifica se um usuário é proprietário de um board
- * @param {number} boardId - ID do board
- * @param {number} userId - ID do usuário
- * @returns {boolean} - true se o usuário é proprietário
+  Verifica se um usuário é proprietário de um board
+  @param {number} boardId - ID do board
+  @param {number} userId - ID do usuário
+  @returns {boolean} - true se o usuário é proprietário
  */
 const isOwner = async (boardId, userId) => {
   try {

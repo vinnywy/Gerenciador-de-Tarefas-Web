@@ -59,7 +59,7 @@
     </style>
 </head>
 <body>
-    <h1>🧪 Teste de Drag & Drop</h1>
+    <h1> Teste de Drag & Drop</h1>
     
     <div class="test-container">
         <div class="test-column" data-column-id="1">
@@ -112,7 +112,7 @@
                 e.dataTransfer.setData('text/plain', taskData.taskId);
                 e.dataTransfer.effectAllowed = 'move';
                 
-                log('🎯 Drag iniciado: Tarefa ' + taskData.taskId + ' da coluna ' + taskData.sourceColumnId);
+                log(' Drag iniciado: Tarefa ' + taskData.taskId + ' da coluna ' + taskData.sourceColumnId);
             });
             
             task.addEventListener('dragend', function(e) {
@@ -121,7 +121,7 @@
                     col.classList.remove('drag-over');
                 });
                 draggedTask = null;
-                log('✅ Drag finalizado');
+                log(' Drag finalizado');
             });
         });
         
@@ -147,7 +147,7 @@
                 this.classList.remove('drag-over');
                 
                 if (!draggedTask) {
-                    log('❌ Nenhuma tarefa sendo arrastada');
+                    log(' Nenhuma tarefa sendo arrastada');
                     return;
                 }
                 
@@ -157,10 +157,10 @@
                     const taskId = data.taskId;
                     const sourceColumnId = data.sourceColumnId;
                     
-                    log('🎯 Drop detectado: Tarefa ' + taskId + ' de ' + sourceColumnId + ' para ' + newColumnId);
+                    log(' Drop detectado: Tarefa ' + taskId + ' de ' + sourceColumnId + ' para ' + newColumnId);
                     
                     if (newColumnId === sourceColumnId) {
-                        log('ℹ️ Tarefa não mudou de coluna');
+                        log(' Tarefa não mudou de coluna');
                         return;
                     }
                     
@@ -168,15 +168,15 @@
                     draggedTask.dataset.columnId = newColumnId;
                     this.appendChild(draggedTask);
                     
-                    log('✅ Tarefa movida com sucesso!');
+                    log(' Tarefa movida com sucesso!');
                     
                 } catch (error) {
-                    log('❌ Erro no drop: ' + error.message);
+                    log(' Erro no drop: ' + error.message);
                 }
             });
         });
         
-        log('🎯 Sistema de drag & drop inicializado');
+        log(' Sistema de drag & drop inicializado');
     </script>
 </body>
 </html>

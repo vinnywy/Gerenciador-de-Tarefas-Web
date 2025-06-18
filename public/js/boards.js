@@ -1,14 +1,10 @@
-/**
- * JavaScript para funcionalidades interativas da página de boards
- * Implementa modais, menus de contexto e operações AJAX
- */
 
 // Variáveis globais
 let currentBoardId = null;
 let isEditMode = false;
 
 /**
- * Abre o modal para criar um novo board
+  Abre o modal para criar um novo board
  */
 function openCreateModal() {
   const modal = document.getElementById('boardModal');
@@ -35,8 +31,8 @@ function openCreateModal() {
 }
 
 /**
- * Abre o modal para editar um board existente
- * @param {number} boardId - ID do board a ser editado
+  Abre o modal para editar um board existente
+  @param {number} boardId - ID do board a ser editado
  */
 function openEditModal(boardId) {
   const modal = document.getElementById('boardModal');
@@ -75,7 +71,7 @@ function openEditModal(boardId) {
 }
 
 /**
- * Fecha o modal
+  Fecha o modal
  */
 function closeModal() {
   const modal = document.getElementById('boardModal');
@@ -92,17 +88,17 @@ function closeModal() {
 }
 
 /**
- * Redireciona para a página do board (kanban)
- * @param {number} boardId - ID do board
+  Redireciona para a página do board (kanban)
+  @param {number} boardId - ID do board
  */
 function goToBoard(boardId) {
   window.location.href = `/kanban/${boardId}`;
 }
 
 /**
- * Abre o menu de contexto para um board
- * @param {Event} event - Evento do clique
- * @param {number} boardId - ID do board
+  Abre o menu de contexto para um board
+  @param {Event} event - Evento do clique
+  @param {number} boardId - ID do board
  */
 function openBoardMenu(event, boardId) {
   event.stopPropagation();
@@ -120,7 +116,7 @@ function openBoardMenu(event, boardId) {
 }
 
 /**
- * Fecha o menu de contexto
+  Fecha o menu de contexto
  */
 function closeContextMenu() {
   const contextMenu = document.getElementById('contextMenu');
@@ -128,7 +124,7 @@ function closeContextMenu() {
 }
 
 /**
- * Exibe detalhes do board em um alert (pode ser melhorado com modal)
+  Exibe detalhes do board em um alert (pode ser melhorado com modal)
  */
 function viewBoardDetails() {
   if (!currentBoardId) return;
@@ -160,7 +156,7 @@ Tarefas: ${board.total_tarefas}
 }
 
 /**
- * Abre o modal de edição para o board atual
+  Abre o modal de edição para o board atual
  */
 function editBoard() {
   if (!currentBoardId) return;
@@ -170,7 +166,7 @@ function editBoard() {
 }
 
 /**
- * Exclui o board atual após confirmação
+  Exclui o board atual após confirmação
  */
 function deleteBoard() {
   if (!currentBoardId) return;
@@ -209,9 +205,9 @@ function deleteBoard() {
 }
 
 /**
- * Exibe uma notificação temporária
- * @param {string} message - Mensagem a ser exibida
- * @param {string} type - Tipo da notificação ('success' ou 'error')
+  Exibe uma notificação temporária
+  @param {string} message - Mensagem a ser exibida
+  @param {string} type - Tipo da notificação ('success' ou 'error')
  */
 function showNotification(message, type = 'info') {
   // Remove notificações existentes
@@ -250,7 +246,7 @@ function showNotification(message, type = 'info') {
 }
 
 /**
- * Atualiza o contador de boards na página
+  Atualiza o contador de boards na página
  */
 function updateBoardCount() {
   const boardCards = document.querySelectorAll('.board-card[data-board-id]');

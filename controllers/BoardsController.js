@@ -1,14 +1,9 @@
 const Board = require('../models/Board');
 
 /**
- * BoardsController - Controlador responsável pelo gerenciamento de boards
- * Segue o padrão MVC para separação de responsabilidades
- */
-
-/**
- * Renderiza a página de boards do usuário
- * @param {Object} req - Objeto de requisição do Express
- * @param {Object} res - Objeto de resposta do Express
+  Renderiza a página de boards do usuário
+  @param {Object} req - Objeto de requisição do Express
+  @param {Object} res - Objeto de resposta do Express
  */
 exports.getBoards = async (req, res) => {
   // O middleware de autenticação já garante que req.user existe
@@ -41,9 +36,9 @@ exports.getBoards = async (req, res) => {
 };
 
 /**
- * Cria um novo board para o usuário
- * @param {Object} req - Objeto de requisição do Express
- * @param {Object} res - Objeto de resposta do Express
+  Cria um novo board para o usuário
+  @param {Object} req - Objeto de requisição do Express
+  @param {Object} res - Objeto de resposta do Express
  */
 exports.createBoard = async (req, res) => {
   const { nome, descricao } = req.body;
@@ -122,9 +117,9 @@ exports.createBoard = async (req, res) => {
 };
 
 /**
- * Exibe detalhes de um board específico (modal/popup)
- * @param {Object} req - Objeto de requisição do Express
- * @param {Object} res - Objeto de resposta do Express
+  Exibe detalhes de um board específico (modal/popup)
+  @param {Object} req - Objeto de requisição do Express
+  @param {Object} res - Objeto de resposta do Express
  */
 exports.getBoardDetails = async (req, res) => {
   const { id } = req.params;
@@ -168,9 +163,9 @@ exports.getBoardDetails = async (req, res) => {
 };
 
 /**
- * Atualiza um board existente
- * @param {Object} req - Objeto de requisição do Express
- * @param {Object} res - Objeto de resposta do Express
+  Atualiza um board existente
+  @param {Object} req - Objeto de requisição do Express
+  @param {Object} res - Objeto de resposta do Express
  */
 exports.updateBoard = async (req, res) => {
   const { id } = req.params;
@@ -221,9 +216,9 @@ exports.updateBoard = async (req, res) => {
 };
 
 /**
- * Remove um board
- * @param {Object} req - Objeto de requisição do Express
- * @param {Object} res - Objeto de resposta do Express
+  Remove um board
+  @param {Object} req - Objeto de requisição do Express
+  @param {Object} res - Objeto de resposta do Express
  */
 exports.deleteBoard = async (req, res) => {
   const { id } = req.params;

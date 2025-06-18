@@ -1,14 +1,8 @@
 const pool = require('../config/database');
-
 /**
- * Model para gerenciamento de tarefas (tasks)
- * Implementa operações CRUD e movimentação entre colunas
- */
-
-/**
- * Busca todas as tarefas de uma coluna específica
- * @param {number} coluna_id - ID da coluna
- * @returns {Array} Lista de tarefas ordenadas por posição
+  Busca todas as tarefas de uma coluna específica
+ @param {number} coluna_id - ID da coluna
+ @returns {Array} Lista de tarefas ordenadas por posição
  */
 const findByColumnId = async (coluna_id) => {
   const query = 'SELECT * FROM tasks WHERE coluna_id = $1 ORDER BY posicao';
@@ -17,9 +11,9 @@ const findByColumnId = async (coluna_id) => {
 };
 
 /**
- * Busca uma tarefa específica por ID
- * @param {number} id - ID da tarefa
- * @returns {Object|null} Dados da tarefa ou null se não encontrada
+ Busca uma tarefa específica por ID
+  @param {number} id - ID da tarefa
+  @returns {Object|null} Dados da tarefa ou null se não encontrada
  */
 const findById = async (id) => {
   const query = 'SELECT * FROM tasks WHERE id = $1';
@@ -28,9 +22,9 @@ const findById = async (id) => {
 };
 
 /**
- * Cria uma nova tarefa
- * @param {Object} taskData - Dados da tarefa
- * @returns {Object} Tarefa criada
+  Cria uma nova tarefa
+  @param {Object} taskData - Dados da tarefa
+  @returns {Object} Tarefa criada
  */
 const create = async ({ titulo, descricao, prioridade, coluna_id, responsavel_id, data_limite, posicao }) => {
   const query = `
@@ -41,9 +35,9 @@ const create = async ({ titulo, descricao, prioridade, coluna_id, responsavel_id
 };
 
 /**
- * Atualiza uma tarefa existente
- * @param {Object} taskData - Dados para atualização
- * @returns {Object} Tarefa atualizada
+  Atualiza uma tarefa existente
+  @param {Object} taskData - Dados para atualização
+  @returns {Object} Tarefa atualizada
  */
 const update = async ({ id, titulo, descricao, prioridade }) => {
   const query = `
@@ -55,10 +49,10 @@ const update = async ({ id, titulo, descricao, prioridade }) => {
 
 /**
  * Move uma tarefa para outra coluna
- * @param {number} taskId - ID da tarefa
- * @param {number} newColumnId - ID da nova coluna
- * @param {number} newPosition - Nova posição na coluna
- * @returns {Object} Tarefa atualizada
+  @param {number} taskId - ID da tarefa
+  @param {number} newColumnId - ID da nova coluna
+  @param {number} newPosition - Nova posição na coluna
+  @returns {Object} Tarefa atualizada
  */
 const moveToColumn = async (taskId, newColumnId, newPosition) => {
   const client = await pool.connect();
@@ -75,9 +69,9 @@ const moveToColumn = async (taskId, newColumnId, newPosition) => {
     const task = currentTask.rows[0];
     const oldColumnId = task.coluna_id;
 
-    // Se mudou de coluna, reorganiza as posições
+    //reorganiza as posições
     if (oldColumnId !== newColumnId) {
-      // Reorganiza posições na coluna antiga (remove gaps)
+      // Reorganiza posições na coluna antiga 
       await client.query(`
         UPDATE tasks
         SET posicao = posicao - 1
@@ -128,9 +122,9 @@ const moveToColumn = async (taskId, newColumnId, newPosition) => {
 };
 
 /**
- * Remove uma tarefa
- * @param {number} id - ID da tarefa
- * @returns {boolean} True se removida com sucesso
+  Remove uma tarefa
+ @param {number} id - ID da tarefa
+ @returns {boolean} True se removida com sucesso
  */
 const remove = async (id) => {
   const client = await pool.connect();

@@ -1,14 +1,9 @@
 const pool = require('../config/database');
 
 /**
- * Model para gerenciamento de colunas do kanban
- * Implementa operações CRUD e reorganização de posições
- */
-
-/**
- * Busca todas as colunas de um board específico
- * @param {number} board_id - ID do board
- * @returns {Array} Lista de colunas ordenadas por posição
+  Busca todas as colunas de um board específico
+ @param {number} board_id - ID do board
+  @returns {Array} Lista de colunas ordenadas por posição
  */
 const findByBoardId = async (board_id) => {
   const query = 'SELECT * FROM columns WHERE board_id = $1 ORDER BY posicao';
@@ -17,9 +12,9 @@ const findByBoardId = async (board_id) => {
 };
 
 /**
- * Busca uma coluna específica por ID
- * @param {number} id - ID da coluna
- * @returns {Object|null} Dados da coluna ou null se não encontrada
+  Busca uma coluna específica por ID
+  @param {number} id - ID da coluna
+  @returns {Object|null} Dados da coluna ou null se não encontrada
  */
 const findById = async (id) => {
   const query = 'SELECT * FROM columns WHERE id = $1';
@@ -28,9 +23,9 @@ const findById = async (id) => {
 };
 
 /**
- * Cria uma nova coluna
- * @param {Object} columnData - Dados da coluna
- * @returns {Object} Coluna criada
+  Cria uma nova coluna
+  @param {Object} columnData - Dados da coluna
+  @returns {Object} Coluna criada
  */
 const create = async ({ titulo, posicao, board_id }) => {
   const query = 'INSERT INTO columns (titulo, posicao, board_id) VALUES ($1, $2, $3) RETURNING *';
@@ -39,9 +34,9 @@ const create = async ({ titulo, posicao, board_id }) => {
 };
 
 /**
- * Atualiza uma coluna existente
- * @param {Object} columnData - Dados para atualização
- * @returns {Object} Coluna atualizada
+ Atualiza uma coluna existente
+ @param {Object} columnData - Dados para atualização
+ @returns {Object} Coluna atualizada
  */
 const update = async ({ id, titulo }) => {
   const query = 'UPDATE columns SET titulo = $1, atualizado_em = CURRENT_TIMESTAMP WHERE id = $2 RETURNING *';
@@ -50,9 +45,9 @@ const update = async ({ id, titulo }) => {
 };
 
 /**
- * Remove uma coluna e todas as suas tarefas
- * @param {number} id - ID da coluna
- * @returns {boolean} True se removida com sucesso
+  Remove uma coluna e todas as suas tarefas
+  @param {number} id - ID da coluna
+  @returns {boolean} True se removida com sucesso
  */
 const remove = async (id) => {
   const client = await pool.connect();
@@ -93,10 +88,10 @@ const remove = async (id) => {
 };
 
 /**
- * Verifica se uma coluna pertence a um usuário específico
- * @param {number} columnId - ID da coluna
- * @param {number} userId - ID do usuário
- * @returns {boolean} True se o usuário é proprietário
+  Verifica se uma coluna pertence a um usuário específico
+  @param {number} columnId - ID da coluna
+  @param {number} userId - ID do usuário
+  @returns {boolean} True se o usuário é proprietário
  */
 const isOwner = async (columnId, userId) => {
   const query = `

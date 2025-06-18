@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Edição de Tarefa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste de Edição de Tarefa</h1>
+    
+    <div class="test-section">
+        <h2>1. Buscar Tarefa</h2>
+        <input type="number" id="taskId" placeholder="ID da tarefa" value="1">
+        <button onclick="fetchTask()">Buscar Tarefa</button>
+        <div id="fetchLog" class="log"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Editar Tarefa</h2>
+        <input type="text" id="editTitle" placeholder="Título">
+        <textarea id="editDescription" placeholder="Descrição"></textarea>
+        <select id="editPriority">
+            <option value="baixa">Baixa</option>
+            <option value="média">Média</option>
+            <option value="alta">Alta</option>
+        </select>
+        <button onclick="editTask()">Editar Tarefa</button>
+        <div id="editLog" class="log"></div>
+    </div>
+
+    <script>
+        let currentTaskId = 1;
+        
+        function log(elementId, message) {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            element.textContent += `[${timestamp}] ${message}\n`;
+            element.scrollTop = element.scrollHeight;
+        }
+        
+        async function fetchTask() {
+            const taskId = document.getElementById('taskId').value;
+            currentTaskId = taskId;
+            
+            log('fetchLog', `Buscando tarefa ${taskId}...`);
+            
+            try {
+                const response = await fetch(`/kanban/tasks/${taskId}`);
+                log('fetchLog', `Status: ${response.status}`);
+                
+                if (response.ok) {
+                    const task = await response.json();
+                    log('fetchLog', `Tarefa encontrada: ${JSON.stringify(task, null, 2)}`);
+                    
+                    // Preenche os campos de edição
+                    document.getElementById('editTitle').value = task.titulo || '';
+                    document.getElementById('editDescription').value = task.descricao || '';
+                    document.getElementById('editPriority').value = task.prioridade || 'média';
+                } else {
+                    const error = await response.text();
+                    log('fetchLog', `Erro: ${error}`);
+                }
+            } catch (error) {
+                log('fetchLog', `Erro na requisição: ${error.message}`);
+            }
+        }
+        
+        async function editTask() {
+            const taskData = {
+                titulo: document.getElementById('editTitle').value,
+                descricao: document.getElementById('editDescription').value,
+                prioridade: document.getElementById('editPriority').value
+            };
+            
+            log('editLog', `Editando tarefa ${currentTaskId}...`);
+            log('editLog', `Dados: ${JSON.stringify(taskData, null, 2)}`);
+            
+            try {
+                const response = await fetch(`/kanban/tasks/${currentTaskId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(taskData)
+                });
+                
+                log('editLog', `Status: ${response.status}`);
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    log('editLog', `Sucesso: ${JSON.stringify(result, null, 2)}`);
+                } else {
+                    const error = await response.text();
+                    log('editLog', `Erro: ${error}`);
+                }
+            } catch (error) {
+                log('editLog', `Erro na requisição: ${error.message}`);
+            }
+        }
+        
+        // Busca a primeira tarefa automaticamente
+        window.onload = () => {
+            fetchTask();
+        };
+    </script>
+</body>
+</html>

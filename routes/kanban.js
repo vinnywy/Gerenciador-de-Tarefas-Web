@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const KanbanController = require('../controllers/KanbanController');
 
-/**
- * Middleware de autenticação
- * Verifica se o usuário está logado
+/*
+  Middleware de autenticação
+  Verifica se o usuário está logado
  */
 function auth(req, res, next) {
   if (!req.session.user) return res.redirect('/login');

@@ -20,9 +20,9 @@ function auth(req, res, next) {
   next();
 }
 
-/**
- * Rotas relacionadas aos boards (quadros Kanban)
- * Todas as rotas requerem autenticação
+/*
+  Rotas relacionadas aos boards (quadros Kanban)
+  Todas as rotas requerem autenticação
  */
 
 // Rota para listar boards do usuário

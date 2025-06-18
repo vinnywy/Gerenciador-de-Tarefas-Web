@@ -1,14 +1,9 @@
 const User = require('../models/User');
 
 /**
- * LoginController - Controlador responsável pela autenticação de usuários
- * Segue o padrão MVC para separação de responsabilidades
- */
-
-/**
- * Renderiza a página de login
- * @param {Object} req - Objeto de requisição do Express
- * @param {Object} res - Objeto de resposta do Express
+  Renderiza a página de login
+  @param {Object} req - Objeto de requisição do Express
+  @param {Object} res - Objeto de resposta do Express
  */
 exports.loginPage = (req, res) => {
   // Se o usuário já está logado, redireciona para boards
@@ -24,9 +19,9 @@ exports.loginPage = (req, res) => {
 };
 
 /**
- * Processa o login do usuário
- * @param {Object} req - Objeto de requisição do Express
- * @param {Object} res - Objeto de resposta do Express
+  Processa o login do usuário
+  @param {Object} req - Objeto de requisição do Express
+  @param {Object} res - Objeto de resposta do Express
  */
 exports.login = async (req, res) => {
   const { email } = req.body;
@@ -66,9 +61,7 @@ exports.login = async (req, res) => {
       });
     }
   } catch (error) {
-    // Log do erro para debugging
     console.error('Erro durante o processo de login:', error);
-
     return res.render('login', {
       error: 'Erro interno do servidor. Tente novamente em alguns instantes.',
       title: 'Login - Kanban Board'
@@ -77,9 +70,9 @@ exports.login = async (req, res) => {
 };
 
 /**
- * Realiza o logout do usuário
- * @param {Object} req - Objeto de requisição do Express
- * @param {Object} res - Objeto de resposta do Express
+  Realiza o logout do usuário
+  @param {Object} req - Objeto de requisição do Express
+  @param {Object} res - Objeto de resposta do Express
  */
 exports.logout = (req, res) => {
   // Destrói a sessão do usuário

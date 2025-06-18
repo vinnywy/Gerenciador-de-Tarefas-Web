@@ -9,12 +9,6 @@ const loginRoutes = require('./routes/login');
 const boardsRoutes = require('./routes/boards');
 const kanbanRoutes = require('./routes/kanban');
 
-/**
- * Configuração do servidor Express
- * Aplicação web para gerenciamento de tarefas estilo Kanban
- * Segue arquitetura MVC
- */
-
 const app = express();
 
 // Middlewares para parsing de dados

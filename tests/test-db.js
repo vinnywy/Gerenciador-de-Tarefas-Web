@@ -1,15 +1,15 @@
-const pool = require('./config/database');
+const pool = require('../config/database');
 
 async function testDatabase() {
   try {
-    console.log('🔍 Testando conexão com o banco de dados...');
+    console.log(' Testando conexão com o banco de dados...');
     
     // Teste de conexão
     const client = await pool.connect();
-    console.log('✅ Conexão estabelecida com sucesso!');
+    console.log(' Conexão estabelecida com sucesso!');
     
     // Verifica estrutura da tabela tasks
-    console.log('\n📋 Verificando estrutura da tabela tasks...');
+    console.log(' Verificando estrutura da tabela tasks...');
     const tableStructure = await client.query(`
       SELECT column_name, data_type, is_nullable, column_default
       FROM information_schema.columns 
@@ -23,12 +23,12 @@ async function testDatabase() {
     });
     
     // Verifica se há tarefas na tabela
-    console.log('\n📊 Verificando dados na tabela tasks...');
+    console.log(' Verificando dados na tabela tasks...');
     const taskCount = await client.query('SELECT COUNT(*) as total FROM tasks');
     console.log(`Total de tarefas: ${taskCount.rows[0].total}`);
     
     // Verifica estrutura da tabela columns
-    console.log('\n📋 Verificando estrutura da tabela columns...');
+    console.log(' Verificando estrutura da tabela columns...');
     const columnStructure = await client.query(`
       SELECT column_name, data_type, is_nullable, column_default
       FROM information_schema.columns
@@ -46,7 +46,7 @@ async function testDatabase() {
     console.log(`Total de colunas: ${columnCount.rows[0].total}`);
     
     // Teste de uma query simples de moveToColumn
-    console.log('\n🧪 Testando query de exemplo...');
+    console.log(' Testando query de exemplo...');
     const testQuery = await client.query(`
       SELECT t.id, t.titulo, t.coluna_id, c.titulo as coluna_titulo
       FROM tasks t
@@ -60,7 +60,7 @@ async function testDatabase() {
     });
 
     // Teste específico da função moveToColumn
-    console.log('\n🧪 Testando função moveToColumn...');
+    console.log(' Testando função moveToColumn...');
     if (testQuery.rows.length > 0) {
       const taskToMove = testQuery.rows[0];
       console.log(`Tentando mover tarefa ${taskToMove.id} para uma coluna diferente...`);
@@ -79,17 +79,17 @@ async function testDatabase() {
         // Simula a operação moveToColumn (sem executar)
         console.log('Query que seria executada:');
         console.log(`UPDATE tasks SET coluna_id = ${targetColumn.id}, posicao = 1 WHERE id = ${taskToMove.id}`);
-        console.log('✅ Simulação da função moveToColumn bem-sucedida!');
+        console.log(' Simulação da função moveToColumn bem-sucedida!');
       } else {
-        console.log('⚠️ Não há colunas suficientes para testar moveToColumn');
+        console.log(' Não há colunas suficientes para testar moveToColumn');
       }
     }
 
     client.release();
-    console.log('\n✅ Teste concluído com sucesso!');
+    console.log('Teste concluído com sucesso!');
     
   } catch (error) {
-    console.error('❌ Erro no teste do banco de dados:', error);
+    console.error(' Erro no teste do banco de dados:', error);
     console.error('Stack trace:', error.stack);
   } finally {
     await pool.end();

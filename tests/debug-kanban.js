@@ -1,10 +1,8 @@
-// Script de debug para ser executado no console do navegador na página do kanban
-
-console.log('🔍 Iniciando debug do Kanban...');
+console.log('Iniciando debug do Kanban...');
 
 // Função para verificar elementos
 function debugElements() {
-  console.log('📋 Verificando elementos do DOM...');
+  console.log(' Verificando elementos do DOM...');
   
   const taskCards = document.querySelectorAll('.task-card');
   const tasksLists = document.querySelectorAll('.tasks-list');
@@ -39,7 +37,7 @@ function debugElements() {
 
 // Função para testar event listeners
 function testEventListeners() {
-  console.log('🧪 Testando event listeners...');
+  console.log(' Testando event listeners...');
   
   const taskCards = document.querySelectorAll('.task-card');
   
@@ -67,13 +65,13 @@ function testEventListeners() {
       firstTask.dispatchEvent(dragEndEvent);
     }, 1000);
   } else {
-    console.log('❌ Nenhuma tarefa encontrada para testar');
+    console.log(' Nenhuma tarefa encontrada para testar');
   }
 }
 
 // Função para verificar variáveis globais
 function checkGlobalVariables() {
-  console.log('🌐 Verificando variáveis globais...');
+  console.log(' Verificando variáveis globais...');
   
   console.log('Variáveis disponíveis:', {
     draggedTask: typeof draggedTask !== 'undefined' ? draggedTask : 'undefined',
@@ -85,7 +83,7 @@ function checkGlobalVariables() {
 
 // Função para verificar funções
 function checkFunctions() {
-  console.log('🔧 Verificando funções...');
+  console.log(' Verificando funções...');
   
   const functions = [
     'handleDragStart',
@@ -97,16 +95,16 @@ function checkFunctions() {
   ];
   
   functions.forEach(funcName => {
-    console.log(`${funcName}:`, typeof window[funcName] !== 'undefined' ? '✅ Disponível' : '❌ Não encontrada');
+    console.log(`${funcName}:`, typeof window[funcName] !== 'undefined' ? ' Disponível' : ' Não encontrada');
   });
 }
 
 // Função para adicionar listeners de debug
 function addDebugListeners() {
-  console.log('🎯 Adicionando listeners de debug...');
+  console.log(' Adicionando listeners de debug...');
   
   document.addEventListener('dragstart', function(e) {
-    console.log('🎯 DEBUG: dragstart detectado', {
+    console.log(' DEBUG: dragstart detectado', {
       target: e.target,
       tagName: e.target.tagName,
       className: e.target.className,
@@ -116,7 +114,7 @@ function addDebugListeners() {
   });
   
   document.addEventListener('dragend', function(e) {
-    console.log('✅ DEBUG: dragend detectado', {
+    console.log(' DEBUG: dragend detectado', {
       target: e.target,
       tagName: e.target.tagName
     });
@@ -124,7 +122,7 @@ function addDebugListeners() {
   
   document.addEventListener('dragover', function(e) {
     if (e.target.classList.contains('tasks-list')) {
-      console.log('🎯 DEBUG: dragover em tasks-list', {
+      console.log(' DEBUG: dragover em tasks-list', {
         columnId: e.target.dataset.columnId
       });
     }
@@ -132,31 +130,31 @@ function addDebugListeners() {
   
   document.addEventListener('drop', function(e) {
     if (e.target.classList.contains('tasks-list')) {
-      console.log('🎯 DEBUG: drop em tasks-list', {
+      console.log(' DEBUG: drop em tasks-list', {
         columnId: e.target.dataset.columnId,
         dataTransfer: e.dataTransfer.getData('application/json')
       });
     }
   });
   
-  console.log('✅ Listeners de debug adicionados');
+  console.log(' Listeners de debug adicionados');
 }
 
 // Função principal de debug
 function runDebug() {
-  console.log('🚀 Executando debug completo...');
+  console.log(' Executando debug completo...');
   
   debugElements();
   checkGlobalVariables();
   checkFunctions();
   addDebugListeners();
   
-  console.log('📋 Para testar manualmente:');
+  console.log(' Para testar manualmente:');
   console.log('1. Execute: testEventListeners()');
   console.log('2. Tente arrastar uma tarefa manualmente');
   console.log('3. Observe os logs no console');
   
-  console.log('✅ Debug concluído!');
+  console.log(' Debug concluído!');
 }
 
 // Executa o debug

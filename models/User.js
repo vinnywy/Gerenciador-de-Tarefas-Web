@@ -1,14 +1,10 @@
 const pool = require('../config/database');
 
-/**
- * Modelo User - Responsável pela interação com a tabela users no banco de dados
- * Segue o padrão MVC para separação de responsabilidades
- */
 
 /**
  * Busca um usuário pelo email
- * @param {string} email - Email do usuário a ser buscado
- * @returns {Object|null} - Objeto do usuário ou null se não encontrado
+  @param {string} email - Email do usuário a ser buscado
+  @returns {Object|null} - Objeto do usuário ou null se não encontrado
  */
 const findByEmail = async (email) => {
   try {
@@ -38,8 +34,8 @@ const findById = async (id) => {
 };
 
 /**
- * Lista todos os usuários do sistema
- * @returns {Array} - Array com todos os usuários
+  Lista todos os usuários do sistema
+  @returns {Array} - Array com todos os usuários
  */
 const findAll = async () => {
   try {
@@ -54,8 +50,8 @@ const findAll = async () => {
 
 /**
  * Verifica se um email já existe no banco de dados
- * @param {string} email - Email a ser verificado
- * @returns {boolean} - true se o email existe, false caso contrário
+  @param {string} email - Email a ser verificado
+  @returns {boolean} - true se o email existe, false caso contrário
  */
 const emailExists = async (email) => {
   try {
